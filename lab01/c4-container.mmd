@@ -1,0 +1,31 @@
+flowchart TB
+  analyst["Analyst<br/>[Person]"]:::person
+  manager["Branch manager<br/>[Person]"]:::person
+  pos["Branch POS systems<br/>[External system, x3]"]:::external
+  mail["E-mail service<br/>[External system]"]:::external
+
+  subgraph boundary["Monthly Sales Report System"]
+    landing[("Landing zone<br/>[File system folder data/yyyy-MM]<br/>stores the daily branch CSV files")]:::container
+    scheduler["Scheduler<br/>[cron / systemd timer]<br/>starts the monthly run at 06:00 on day 2"]:::container
+    ingest["Ingest job<br/>[Java 25, MonthLoader + CsvTransactionParser]<br/>reads, validates and rejects rows"]:::container
+    batch["Report batch<br/>[Java 25, engine + renderers]<br/>aggregates and renders reports"]:::container
+    store[("Report store<br/>[File system folder reports/]<br/>keeps the finished report files")]:::container
+    desktop["Desktop viewer<br/>[JavaFX]<br/>analysts browse and export reports"]:::container
+    web["Web report page<br/>[HTML served over HTTPS]<br/>branch managers see their own branch"]:::container
+  end
+
+  pos -- "uploads daily CSV files [SFTP]" --> landing
+  scheduler -- "starts the run [process start]" --> ingest
+  ingest -- "reads CSV files [file system]" --> landing
+  ingest -- "hands over valid transactions and rejected rows [in-process call]" --> batch
+  batch -- "writes report files [file system]" --> store
+  batch -- "sends report-ready e-mail [SMTP]" --> mail
+  desktop -- "reads report files [file system]" --> store
+  web -- "reads report files [file system]" --> store
+  analyst -- "views and exports reports" --> desktop
+  analyst -- "views reports [HTTPS]" --> web
+  manager -- "views own branch report [HTTPS]" --> web
+
+  classDef person fill:#08427b,color:#ffffff,stroke:#052e56
+  classDef container fill:#438dd5,color:#ffffff,stroke:#2e6295
+  classDef external fill:#8a8a8a,color:#ffffff,stroke:#6b6b6b
