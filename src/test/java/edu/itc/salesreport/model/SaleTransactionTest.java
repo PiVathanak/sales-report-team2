@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,11 +39,12 @@ class SaleTransactionTest {
     @Test
     void topProductsIsUnmodifiable() {
         List<ProductTotal> source = new ArrayList<>();
-        source.add(new ProductTotal("SKU-1001", "Jasmine Rice 5kg", 2, new BigDecimal("13.00")));
-        var summary = new BranchSummary("PNH", new BigDecimal("13.00"), 1, source);
+        source.add(new ProductTotal("SKU-1001", "Jasmine Rice 5kg", new BigDecimal("13.00"), 2));
+        var summary = new BranchSummary("PNH", new BigDecimal("13.00"), BigDecimal.ZERO, 1,
+                Map.of(), source, Map.of());
 
         assertThrows(UnsupportedOperationException.class, () -> summary.topProducts().add(
-                new ProductTotal("SKU-2001", "Mineral Water 1.5L", 1, new BigDecimal("0.45"))));
+                new ProductTotal("SKU-2001", "Mineral Water 1.5L", new BigDecimal("0.45"), 1)));
 
         source.clear(); // the summary keeps its own copy
         assertEquals(1, summary.topProducts().size());

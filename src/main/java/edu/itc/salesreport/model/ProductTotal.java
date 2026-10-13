@@ -3,7 +3,8 @@ package edu.itc.salesreport.model;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public record ProductTotal(String sku, String productName, int quantity, BigDecimal revenue) {
+public record ProductTotal(String sku, String productName,
+        BigDecimal revenue, long quantity) {
 
     public ProductTotal {
         Objects.requireNonNull(sku, "sku");
