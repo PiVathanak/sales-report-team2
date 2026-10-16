@@ -13,6 +13,7 @@ Team: Team 2 · Members: Seavhong CHEA (cseavhong22), Pi-sereyvathanak (PiVathan
 | `lab01/design-review.md` | Package responsibilities, coupling (Ca, Ce, I), and renderer evaluation | Seavhong CHEA |
 | `lab01/adr/0001-architecture-style-release-1.md` | ADR-0001: Modular monolith batch application for release 1 | Seavhong CHEA |
 | `lab01/adr/0002-branch-to-head-office-data-flow.md` | ADR-0002: Branch-initiated daily push with partial-failure policy | Pi-sereyvathanak, Seavhong CHEA |
+| `lab01/atam.md` | ATAM-style trade-off analysis of three candidate architectures (Challenge) | Seavhong CHEA, Pi-sereyvathanak |
 | `pom.xml`, `src/**`, `tools/SampleData.java` | sales-report 0.1.0-SNAPSHOT: canonical model, CSV parser, renderers, loader, tests | Pi-sereyvathanak, Seavhong CHEA |
 
 ## Inputs reused from earlier labs
@@ -23,4 +24,4 @@ None (first lab).
 
 | Date | Lab | Change | Commit or tag |
 |------|-----|--------|---------------|
-| 2026-10-16 | Lab-01 | Project created: model, parser, renderers, loader; 2 ADRs | `lab-01` |
+| 2026-10-16 | Lab-01 | Project created: model, parser, renderers, loader; 2 ADRs; ATAM analysis | `lab-01` |
